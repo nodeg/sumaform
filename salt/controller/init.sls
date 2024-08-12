@@ -55,6 +55,7 @@ cucumber_requisites:
       - twopence-shell-client
       - twopence-test-server
       - rubygem-twopence
+      - xauth
     - require:
       - sls: repos
 {% else %}
@@ -82,6 +83,7 @@ cucumber_requisites:
       - mozilla-nss-tools
       - postgresql-devel
       - unzip
+      - xauth
     - require:
       - sls: repos
 
@@ -111,8 +113,9 @@ ruby_set_ri_version:
   cmd.run:
     - name: update-alternatives --set ri /usr/bin/ri.ruby.ruby3.3
 
+
 # WORKAROUND: Build twopence from source due to Ruby 3 not being available
-# 						openSUSE Leap 15.5/15.6
+#             openSUSE Leap 15.5/15.6
 twopence_install_from_source:
   cmd.run:
     - name: |
@@ -125,6 +128,11 @@ twopence_install_from_source:
     - require:
       - pkg: cucumber_requisites
 {% endif %}
+
+# needed for debugging with chromedriver in non-headlesss mode with `export DEBUG=1`
+create_xauthority_file:
+  cmd.run:
+   - name: touch /root/.Xauthority
 
 install_chromium:
   pkg.installed:
