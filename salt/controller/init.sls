@@ -87,6 +87,11 @@ cucumber_requisites:
     - require:
       - sls: repos
 
+/usr/bin/ruby:
+  file.symlink:
+    - target: /usr/bin/ruby.ruby3.3
+    - force: True
+
 /usr/bin/gem:
   file.symlink:
     - target: /usr/bin/gem.ruby3.3
